@@ -1,3 +1,4 @@
+
 Introduction
 ------------
 
@@ -13,7 +14,7 @@ MIT
 Installation
 ------------
 
-For now, download the source code and put it in the folder with your django app.  Register the app in your django settings folder as you would any other app.  
+For now, [download](https://github.com/Charles-Kaminski/django-template-minimizer/downloads) the source code.  Decompress it and put it in the folder with your django project as another django app.  Register the app in your django settings folder as you would any other app.  
 
 Usage
 -----
