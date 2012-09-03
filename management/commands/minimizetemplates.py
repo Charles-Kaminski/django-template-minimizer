@@ -66,14 +66,14 @@ The minimizer command uses its own minimizers for html, style tag embeded
     f = lambda x: x
     JAVASCRIPT_MINIMIZER = [f,]
 
-You can tell the minimizer command to add an agressive step after the
+You can tell the minimizer command to add an aggressive step after the
     HTML minimizers.  This step will also remove (instead of just
     collapse) the remaining space between '>' & '<' character.
     Django tags, Django variables, Script content, Style content
     and anything wrapped in {# NOMINIFY #} {# ENDNOMINIFY #} tags
     are not affected.  Set the following setting to True in your Django
     settings file to run this final step:
-    ADD_AGRESSIVE_HTML_MINIMIZER = True
+    ADD_AGGRESSIVE_HTML_MINIMIZER = True
 
 Method - For each template, the minimizer command:
 1. Replaces any {# NOMINIFY #} {# ENDNOMINIFY #} content with
@@ -96,7 +96,7 @@ Method - For each template, the minimizer command:
     style tags for css.
 6. The remaining text (with the identifiers) is run through the
     html minimizers.
-7. If the ADD_AGRESSIVE_HTML_MINIMIZER flag is set to True then
+7. If the ADD_AGGRESSIVE_HTML_MINIMIZER flag is set to True then
     any white space runs between the '>' and '<' characters are removed.
 8. All of the content saved in memory and associated with unique
     identifiers are put back.
