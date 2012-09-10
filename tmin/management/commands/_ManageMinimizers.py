@@ -53,9 +53,9 @@ def get_minimizers():
     if hasattr(settings, 'HTML_MINIMIZERS'):
         htmlminimizers = settings.HTML_MINIMIZERS
 
-    aggressive = False
-    if hasattr(settings, 'ADD_AGGRESSIVE_HTML_MINIMIZER'):
-        aggressive = settings.ADD_AGGRESSIVE_HTML_MINIMIZER
+    aggressive = True
+    if hasattr(settings, 'AGGRESSIVE_HTML_MINIMIZER'):
+        aggressive = settings.AGGRESSIVE_HTML_MINIMIZER
 
     retval = [jsminimizers, cssminimizers, htmlminimizers]
 

@@ -66,14 +66,12 @@ The minimizer command uses its own minimizers for html, style tag embeded
     f = lambda x: x
     JAVASCRIPT_MINIMIZER = [f,]
 
-You can tell the minimizer command to add an aggressive step after the
-    HTML minimizers.  This step will also remove (instead of just
-    collapse) the remaining space between '>' & '<' character.
-    Django tags, Django variables, Script content, Style content
-    and anything wrapped in {# NOMINIFY #} {# ENDNOMINIFY #} tags
-    are not affected.  Set the following setting to True in your Django
-    settings file to run this final step:
-    ADD_AGGRESSIVE_HTML_MINIMIZER = True
+You can tell the minimizer command to disable an aggressive minimizer 
+    in the default HTML minimizer chain.  This minimizer normally removes 
+    (instead of just collapsing) the remaining space between '>' & '<' 
+    character.  Set the following setting to False in your Django
+    settings file to disable this final step:
+    AGGRESSIVE_HTML_MINIMIZER = False
 
 Method - For each template, the minimizer command:
 1. Replaces any {# NOMINIFY #} {# ENDNOMINIFY #} content with
@@ -96,11 +94,9 @@ Method - For each template, the minimizer command:
     style tags for css.
 6. The remaining text (with the identifiers) is run through the
     html minimizers.
-7. If the ADD_AGGRESSIVE_HTML_MINIMIZER flag is set to True then
-    any white space runs between the '>' and '<' characters are removed.
-8. All of the content saved in memory and associated with unique
+7. All of the content saved in memory and associated with unique
     identifiers are put back.
-9. The original template is moved to an archive folder and replaced
+8. The original template is moved to an archive folder and replaced
     with the minimized template.
 
 Limitations:
@@ -167,7 +163,9 @@ Use the {# NOMINIFY #} {# ENDNOMINIFY #} comment tags to overcome
         for d in dirs:
             archive_dir = join(d, ARCHIVE)
             for root, walk_dirs, files in walk(d):
-                walk_dirs = [x for x in walk_dirs if not x.startswith(REVERTED)]
+                # Didn't used "startswith" on the if as am getting strange
+                # behavior in windows
+                walk_dirs = [x for x in walk_dirs if not REVERTED in x]
                 for name in files:
                     if not name.split('.')[-1] in ('.py', '.pyc'):
                         path= join(root,name)
@@ -192,7 +190,7 @@ Use the {# NOMINIFY #} {# ENDNOMINIFY #} comment tags to overcome
         print 'Files:    %s' % num_files
         print 'Before:   %s' % before
         print 'After:    %s' % after
-        print "Decrease: {:.0%}".format((before - after) / float(before))
+        print "Decrease: {0:.0%}".format((before - after) / float(before))
 
     def revert(self, dirs):
         # Put together Archive dirs

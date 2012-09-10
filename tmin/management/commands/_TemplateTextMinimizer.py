@@ -44,14 +44,12 @@ RE_SCRIPT  = re.compile(SCRIPT,  flags=FLAGS)
 RE_STYLE   = re.compile(STYLE,   flags=FLAGS)
 
 # Will encasing the key in quotes. Will work well with javascript minifiers?
-KEY    = '"_~%s~!"'
+KEY    = '_~%s~_'
 
 JSMINIMIZERS, CSSMINIMIZERS, HTMLMINIMIZERS = get_minimizers()
 
-def minimize_template_text(text, min_javascript=True, min_style=True):
+def minimize_template_text(text):
     """Takes a Django template text and returns a minified version.
-    min_javascript=True -> Script content for javascript is also minified.
-    min_style=True -> Style content for css is also minified.
 
     Performance is not critical as this function should be run off-line
     to store minimized templates.
@@ -106,8 +104,8 @@ def minimize_template_text(text, min_javascript=True, min_style=True):
     # Extract Styles
     styles  = RE_STYLE.findall(text)
 
-    # Minimize syles if requested.
-    styles_replace = min_style and minimize_tag_data(styles) or None
+    # Minimize syles
+    styles_replace = minimize_tag_data(styles) or None
 
     # Put style pieces together
     styles_find = [''.join(x) for x in styles]
@@ -122,7 +120,7 @@ def minimize_template_text(text, min_javascript=True, min_style=True):
     scripts_find = [''.join(x) for x in scripts]
 
     # Minimize javascripts if requested
-    scripts_replace = min_javascript and minimize_tag_data(scripts) or None
+    scripts_replace = minimize_tag_data(scripts) or None
 
     # replace scripts with keys and populate word_list
     text = subsitute_text(text, word_list, KEY, scripts_find, scripts_replace)
@@ -133,7 +131,7 @@ def minimize_template_text(text, min_javascript=True, min_style=True):
     # put values back into text
     text = revert_text_keys(text, word_list)
 
-    return text
+    return text.strip()
 
 def revert_text_keys(text, word_list):
     """ revert the text keys.  We may have to do this multiple times
@@ -404,7 +402,7 @@ here \t\t\tcomes        the rain \n\n\nagain <a href='bla'>test</a>
 #}
 """
 
-    a = minimized_template_text(text)
+    a = minimize_template_text(text)
     print text
     print '#' * 10
     print a
