@@ -5,7 +5,7 @@ import codecs
 long_description = codecs.open('README.rst', 'r', 'utf-8').read()
 
 setup(name='django-template-minimizer',
-      version='0.1.5',
+      version='0.1.7',
       description=('Minimize your Django templates so that '
                    'your HTML is served up already minimized.'), 
       long_description=long_description,

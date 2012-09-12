@@ -163,9 +163,9 @@ Use the {# NOMINIFY #} {# ENDNOMINIFY #} comment tags to overcome
         for d in dirs:
             archive_dir = join(d, ARCHIVE)
             for root, walk_dirs, files in walk(d):
-                # Didn't used "startswith" on the if as am getting strange
-                # behavior in windows
-                walk_dirs = [x for x in walk_dirs if not REVERTED in x]
+                reverted_dirs = [x for x in walk_dirs if x.startswith(REVERTED)]
+                for reverted_dir in reverted_dirs:
+                    walk_dirs.remove(reverted_dir)  
                 for name in files:
                     if not name.split('.')[-1] in ('.py', '.pyc'):
                         path= join(root,name)
@@ -217,7 +217,9 @@ Use the {# NOMINIFY #} {# ENDNOMINIFY #} comment tags to overcome
         paths = []
         for archive_dir, d, reverted_dir in all_dirs:
             for root, walk_dirs, files in walk(archive_dir):
-                walk_dirs = [x for x in walk_dirs if not x.startswith(REVERTED)]
+                reverted_dirs = [x for x in walk_dirs if x.startswith(REVERTED)]
+                for reverted_dir in reverted_dirs:
+                    walk_dirs.remove(reverted_dir)                
                 for archive_name in files:
                     # Collect all the paths
                     archive_path = join(root, archive_name)

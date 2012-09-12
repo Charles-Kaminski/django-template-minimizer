@@ -86,7 +86,7 @@ For each template, the minimizer command:
 
 7. All of the content saved in memory and associated with unique identifiers are put back.
 
-8. The original template is moved to an archive folder.  The minimized template is put in the original place location.
+8. The original template is moved to an archive folder.  The minimized template is put in the original location.
 
 Limitations
 ===========

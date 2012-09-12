@@ -43,19 +43,21 @@ def get_minimizers():
     [jsminimizers_list, cssminimizers_list, htmlminimizers_list]"""
 
     # Initialize
-    jsminimizers, cssminimizers, htmlminimizers = [], [], []
+    jsminimizers = [jsmin]
+    cssminimizers = [cssmin]
+    htmlminimizers = [HTMLMIN1, HTMLMIN2]
+    
+    if hasattr(settings, 'AGGRESSIVE_HTML_MINIMIZER'):
+        aggressive = settings.AGGRESSIVE_HTML_MINIMIZER   
+        if not aggressive: htmlminimizers.pop()  
 
-    # Get any settings
+    # Get any override settings
     if hasattr(settings, 'JAVASCRIPT_MINIMIZERS'):
         jsminimizers = settings.JAVASCRIPT_MINIMIZERS
     if hasattr(settings, 'CSS_MINIMIZERS'):
         cssminimizers = settings.CSS_MINIMIZERS
     if hasattr(settings, 'HTML_MINIMIZERS'):
         htmlminimizers = settings.HTML_MINIMIZERS
-
-    aggressive = True
-    if hasattr(settings, 'AGGRESSIVE_HTML_MINIMIZER'):
-        aggressive = settings.AGGRESSIVE_HTML_MINIMIZER
 
     retval = [jsminimizers, cssminimizers, htmlminimizers]
 
@@ -72,12 +74,5 @@ def get_minimizers():
     # Convert any tuples into lists
     for cat in retval:
         cat = isinstance(cat, tuple) and list(cat) or cat
-
-
-    # Check if default settings are needed
-    if not jsminimizers:   jsminimizers.append(jsmin)
-    if not cssminimizers:  cssminimizers.append(cssmin)
-    if not htmlminimizers: htmlminimizers.append(HTMLMIN1)
-    if aggressive: htmlminimizers.append(HTMLMIN2)
 
     return retval

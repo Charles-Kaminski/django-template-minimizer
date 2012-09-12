@@ -136,6 +136,9 @@ def minimize_template_text(text):
 def revert_text_keys(text, word_list):
     """ revert the text keys.  We may have to do this multiple times
     as some keys may be embeded in other word_list entries"""
+    
+    if not text or not word_list: 
+        return text
 
     # If we loop through the word_list 10 times without
     #   consuming it completely, then something's probably wrong.
