@@ -2,6 +2,7 @@ django-template-minimizer
 =========================
 
 For Django developers obsessed with performance. 
+
 Minimize your templates once and not your HTML each time you serve it up.
 
 :Download: http://pypi.python.org/pypi/django-template-minimizer/
